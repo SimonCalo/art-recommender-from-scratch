@@ -89,14 +89,19 @@ class GenericMuseumApiInteractor():
                 return True
             if artwork_dict[exception] is None:
                 return True
-            if isinstance(artwork_dict[exception], str):
-                if artwork_dict[exception].lower() in self.exceptions[exception]:
+            exception_value = self.exceptions[exception]
+            field_value = artwork_dict[exception]
+            if isinstance(exception_value, str):
+                if str(field_value).lower() != exception_value.lower():
                     return True
-            elif isinstance(artwork_dict[exception], bool):
-                if artwork_dict[exception] == self.exceptions[exception]:
+            elif isinstance(field_value, str):
+                if field_value.lower() in self.exceptions[exception]:
                     return True
-            elif isinstance(artwork_dict[exception], (int, float)):
-                if artwork_dict[exception] in self.exceptions[exception]:
+            elif isinstance(field_value, bool):
+                if field_value == self.exceptions[exception]:
+                    return True
+            elif isinstance(field_value, (int, float)):
+                if field_value in self.exceptions[exception]:
                     return True
 
         return False

@@ -11,6 +11,18 @@ class RijksApiInteractor(GenericMuseumApiInteractor):
         """Instantiate an object of the class using the parent class constructor."""
         super().__init__(museum_name="rijks")
 
+    def is_exception(self, artwork_dict: dict) -> bool:
+        """Map nested Rijks fields onto config keys before delegating to the generic check."""
+        normalized_dict = dict(artwork_dict)
+        for field_path in self.exceptions:
+            try:
+                normalized_dict[field_path] = (
+                    artwork_dict["subject_to"][0]["classified_as"][0]["_label"]
+                )
+            except (KeyError, IndexError, TypeError):
+                normalized_dict[field_path] = None
+        return super().is_exception(normalized_dict)
+
     def run_downloading_pipeline(self, n_images_to_download: int) -> None:
         """Run the entire pipeline to retrieve and download both images and related jsons
         in a consistent folder structure.
@@ -43,10 +55,7 @@ class RijksApiInteractor(GenericMuseumApiInteractor):
                 image_dict = self.get_response_dict(url=artwork_dict["shows"][0]["id"])
                 digitally_shown_id = image_dict["digitally_shown_by"][0]["id"]
                 image_dict = self.get_response_dict(url=digitally_shown_id)
-                # keep only public domain images
-                if (
-                     not image_dict["subject_to"][0]["classified_as"][0]["_label"].lower() == "public domain"
-                ):
+                if self.is_exception(image_dict):
                     continue
                 image_url = image_dict["access_point"][0]["id"]
                 if image_url is None or image_url.strip() == "":
