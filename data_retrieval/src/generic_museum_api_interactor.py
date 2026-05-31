@@ -71,23 +71,6 @@ class GenericMuseumApiInteractor():
             image_id:The id of the image we want to generate the url for.
         """
         return
-
-    def passes_requirements(self, artwork_dict: dict) -> bool:
-        """Check whether an artwork passes a set of requirements based on its
-        json file.
-
-        Args:
-            artwork_dict: The dictionary extracted from the artwork's json.
-
-        Returns:
-            Whether the artwork passes the requirements or not.
-        """
-        for requirement in self.requirements:
-            if self.requirements[requirement] is None:
-                if str(artwork_dict[requirement]).lower() == "none":
-                    return True
-
-        return False
     
     def is_exception(self, artwork_dict: dict) -> bool:
         """Check whether an artwork should be considered an exception based on its

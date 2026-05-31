@@ -51,4 +51,5 @@ class MetApiInteractor(GenericMuseumApiInteractor):
                 self.download_json(response_dict=artwork_dict, image_name=artwork_id)
                 images_downloaded += 1
             i += 1
+            # sleep to avoid triggering robot blocks (error 403)
             sleep(0.5)
