@@ -1,9 +1,11 @@
 import os
-import json
+import re
 import requests
+import json
 from PIL import Image
 import imagehash
 import io
+from typing import Any
 from data_retrieval.config.apis_params_config import museums_details
 
 
@@ -95,16 +97,83 @@ class GenericMuseumApiInteractor():
                 if str(field_value).lower() != exception_value.lower():
                     return True
             elif isinstance(field_value, str):
-                if field_value.lower() in self.exceptions[exception]:
+                if field_value.lower() in exception_value:
                     return True
             elif isinstance(field_value, bool):
-                if field_value == self.exceptions[exception]:
+                if field_value == exception_value:
                     return True
             elif isinstance(field_value, (int, float)):
-                if field_value in self.exceptions[exception]:
+                if field_value in exception_value:
                     return True
 
         return False
+
+    @staticmethod
+    def _get_nested(nested_data: dict, path: str) -> Any:
+        """Get a value from a nested dictionary using dot notation.
+        Needed for requirements and exceptions checks.
+
+        Args:
+            data: The dictionary or list to search through.
+            path: The path to the value in the nested structure, using dot notation.
+
+        Returns:
+            The value at the specified path, or None if the path is not found.
+        """
+        path = re.sub(r"\[(\d+)\]", r".\1", path)
+
+        value = nested_data
+        for part in path.split("."):
+            if isinstance(value, dict):
+                value = value.get(part)
+            elif isinstance(value, list):
+                try:
+                    value = value[int(part)]
+                except (ValueError, IndexError):
+                    return None
+            else:
+                return None
+
+        return value
+    
+    def passes_requirements(self, artwork_dict: dict, is_nested: bool = False) -> bool:
+        """Check whether an artwork meets all requirements to be
+           downloaded.
+
+        Args:
+            artwork_dict: The json file related to this specific
+                          artwork in the form of a dictionary.
+            is_nested: Whether the requirements are nested in the artwork_dict.
+                       Defaults to False.
+        Returns:
+            True if the artwork passes all configured requirements, False otherwise.
+        """
+        for path, requirement in self.requirements.items():
+            if is_nested:
+                value = self._get_nested(artwork_dict, path)
+            else:
+                value = artwork_dict[path]
+
+            if value is None:
+                return False
+
+            if isinstance(requirement, str):
+                if str(value).lower() != requirement.lower():
+                    return False
+
+            elif isinstance(requirement, bool):
+                if value != requirement:
+                    return False
+
+            elif isinstance(requirement, (list, tuple, set)):
+                if value not in requirement:
+                    return False
+
+            else:
+                if value != requirement:
+                    return False
+
+        return True
 
     def download_image(self, url: str, image_name: str, n_trial: int = 0) -> bool:
         """Retrieve and download an image in a specific folder and with the chosen name.

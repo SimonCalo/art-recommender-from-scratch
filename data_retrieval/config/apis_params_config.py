@@ -13,10 +13,9 @@ museums_details = {
     "rijks": {
         "base_url": "https://data.rijksmuseum.nl/search/collection?imageAvailable=true",
         "key": None,
-        "exceptions": {
+        "exceptions": {},
+        "requirements": {
             "subject_to[0].classified_as[0]._label": "public domain",
         },
-        "requirements": {
-        }
     }
 }
