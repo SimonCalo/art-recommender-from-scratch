@@ -27,10 +27,10 @@ def convert_rijks_json_to_standard_json(original_metadata: dict[str, Any]) -> di
     More information regarding the standard format can be found in our documentation.
     
     Args:
-        original_metadata (dict[str, Any]): The metadata dictionary pulled from the Rijksmuseum API.
+        original_metadata: The metadata dictionary pulled from the Rijksmuseum API.
     
     Returns:
-        dict[str, Any]: The final metadata dictionary with filled in information in standard format.
+        The final metadata dictionary with filled in information in standard format.
     """
     final = final_metadata_template.copy()
 
@@ -76,10 +76,10 @@ def convert_artic_json_to_standard_json(original_metadata: dict[str, Any]) -> di
     More information regarding the standard format can be found in our documentation.
 
     Args:
-        original_metadata (dict[str, Any]): The metadata dictionary pulled from the ARTIC API.
+        original_metadata: The metadata dictionary pulled from the ARTIC API.
 
     Returns:
-        dict[str, Any]: The final metadata with filled in information.
+        The final metadata with filled in information.
     """
     final_metadata = final_metadata_template.copy()
 
@@ -167,10 +167,10 @@ def convert_met_json_to_standard_json(
     More information regarding the standard format can be found in our documentation.
 
     Args:
-        original_metadata (dict): The metadata dictionary pulled from the Met API.
+        original_metadata: The metadata dictionary pulled from the Met API.
 
     Returns:
-        dict: The final metadata with filled in information.
+        The final metadata with filled in information.
     """
     final_metadata = final_metadata_template.copy()
 
@@ -249,9 +249,9 @@ def convert_museum_jsons_to_standard_jsons(
     """Function to convert all jsons in a folder to standard format.
 
     Args:
-        input_folder_path (str): The folder containing the jsons to be converted.
-        output_folder_path (str): The folder where the converted jsons should be saved.
-        museum (str): The museum from which the input jsons were taken.
+        input_folder_path: The folder containing the jsons to be converted.
+        output_folder_path: The folder where the converted jsons should be saved.
+        museum: The museum from which the input jsons were taken.
     """
     
     museum_to_conversion_function = {

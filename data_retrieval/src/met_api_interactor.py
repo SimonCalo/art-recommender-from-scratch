@@ -16,7 +16,7 @@ class MetApiInteractor(GenericMuseumApiInteractor):
         in a consistent folder structure.
 
         Args:
-            n_images_to_download (int): The number of images to download successfully.
+            n_images_to_download: The number of images to download successfully.
         """
         
         super().run_downloading_pipeline()

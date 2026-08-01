@@ -15,12 +15,12 @@ def generate_list_of_filenames(
     Generate a list of filenames within the specified directory that have the specified file ending.
 
     Args:
-        file_path (str): The path to the directory containing the files.
-        file_ending (str): The file ending to filter files by (e.g., '.jpg', '.png').
-        randomise (bool, optional): Whether to randomize the order of filenames. Defaults to False.
+        file_path: The path to the directory containing the files.
+        file_ending: The file ending to filter files by (e.g., '.jpg', '.png').
+        randomise: Whether to randomize the order of filenames. Defaults to False.
 
     Returns:
-        list[str]: A list of filenames with the specified file ending.
+        A list of filenames with the specified file ending.
     """
     files = [
         file_path + "/" + file for file in os.listdir(file_path) if file.endswith(file_ending)
@@ -37,11 +37,11 @@ def generate_dict_of_images_and_jsons(
     """Generate a dictionary of images and their corresponding jsons as dictionaries.
 
     Args:
-        list_of_image_names (list[str]): image filenames to include in this dictionary.
-        jsons_path (str): path to the jsons.
+        list_of_image_names: image filenames to include in this dictionary.
+        jsons_path: path to the jsons.
 
     Returns:
-        dict: The dictionary containing image files as keys and their json as value.
+        The dictionary containing image files as keys and their json as value.
     """
     output_dict = {}
     for image_name in list_of_image_names:
@@ -66,13 +66,13 @@ def consolidate_files_in_one_folder(
     to determine the origin of the file.
     
     Args:
-        folder_path (str): The path to the destination folder.
-        list_of_folders_to_unify (list[str]): The list of folder paths to be unified into one
+        folder_path: The path to the destination folder.
+        list_of_folders_to_unify: The list of folder paths to be unified into one
         overall folder.
-        starting_subfolders (list[str]): The list of subfolders to migrate in the original folder.
-                                         Defaults to ["images", "jsons"].
-        destination_subfolders (list[str]): The list of subfolders to create in the new folder.
-                                            Defaults to ["images", "jsons"].                                 
+        starting_subfolders: The list of subfolders to migrate in the original folder.
+                             Defaults to ["images", "jsons"].
+        destination_subfolders: The list of subfolders to create in the new folder.
+                                Defaults to ["images", "jsons"].
     """
     for subfolder in destination_subfolders:
         os.makedirs(os.path.join(folder_path, subfolder), exist_ok=True)
@@ -102,8 +102,8 @@ def remove_imgs_and_jsons_copies(
     only with images from the met museum.
 
     Args:
-        image_directory (str): The path to the directory containing the images.
-        json_directory (str): The path to the directory containing the json..
+        image_directory: The path to the directory containing the images.
+        json_directory: The path to the directory containing the json..
 
     """
     directory = image_directory

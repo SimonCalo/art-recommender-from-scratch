@@ -43,12 +43,12 @@ class ChromaDBGenerator:
         """Instantiate an object of the class.
 
         Args:
-            collection_name (str): Name for the ChromaDB collection of images.
-            images_path (str): Path where the images to be stored in the collection are.
-            jsons_path (str): Path where the jsons to be stored as metadata in the collection are.
-            similarity_measure (str, optional): The method to determine vector similarity.
+            collection_name: Name for the ChromaDB collection of images.
+            images_path: Path where the images to be stored in the collection are.
+            jsons_path: Path where the jsons to be stored as metadata in the collection are.
+            similarity_measure: The method to determine vector similarity.
                                                 Defaults to "cosine_similarity".
-            include_data_loader (bool, optional): Whether to specify data loader object. Needed
+            include_data_loader: Whether to specify data loader object. Needed
                                                   for images. Defaults to True.
         """
         self.CHROMA_DATA_PATH = CHROMA_DATA_PATH
@@ -97,7 +97,7 @@ class ChromaDBGenerator:
         format of the json files.
 
         Args:
-            add_metadata (bool, optional): Whether to add metadata for each image in the collection.
+            add_metadata: Whether to add metadata for each image in the collection.
                                            Defaults to False.
         """
         
@@ -115,8 +115,8 @@ class ChromaDBGenerator:
         """Add text data to the collection.
 
         Args:
-            ids (list[str]): A list of all the ids for the documents.
-            documents (list[str]): The text documents to be added to the collection.
+            ids: A list of all the ids for the documents.
+            documents: The text documents to be added to the collection.
         """
         
         self.collection.add(
@@ -130,11 +130,11 @@ class ChromaDBGenerator:
         not throw an exception.
         
         Args:
-            images_ids (list[str]): A list of all the image_ids for which we want to retrieve
+            images_ids: A list of all the image_ids for which we want to retrieve
                                     the vector embeddings.
             
         Returns:
-            list[float]: A list of the vector embeddings of the chosen images.
+            A list of the vector embeddings of the chosen images.
         """
         # In case the list is empty, return an empty list back
         if not images_ids:
@@ -157,18 +157,18 @@ class ChromaDBGenerator:
         """Retrieve the n most fitting artworks to a given text query.
 
         Args:
-            query_text (str): The text query.
-            n (int, optional): The number of matching results to find. Defaults to 10.
-            metadata_filters (dict, optional): A dictionary containing metadata filters.
+            query_text: The text query.
+            n: The number of matching results to find. Defaults to 10.
+            metadata_filters: A dictionary containing metadata filters.
                                                For more details on how to use this argument, visit:
                                                https://docs.trychroma.com/usage-guide
                                                Defaults to None.
-            params_to_output (list[str], optional): A list containing the parameters to output from
+            params_to_output: A list containing the parameters to output from
                                                     the query. Defaults to
                                                     ["distances", "uris", "embeddings"].
 
         Returns:
-            list[EmbeddingData]: A list of EmbeddingData objects containing the matching results.
+            A list of EmbeddingData objects containing the matching results.
         """
         if params_to_output is None:
             params_to_output = ["distances", "uris", "embeddings"]
@@ -204,18 +204,18 @@ class ChromaDBGenerator:
         """Retrieve the n most similar artworks to a given artwork.
         
         Args:
-            image_id (str): The id of the image to find similar images to.
-            n (int, optional): The number of matching results to find. Defaults to 10.
-            metadata_filters (dict, optional): A dictionary containing metadata filters.
+            image_id: The id of the image to find similar images to.
+            n: The number of matching results to find. Defaults to 10.
+            metadata_filters: A dictionary containing metadata filters.
                                                For more details on how to use this argument, visit:
                                                https://docs.trychroma.com/usage-guide
                                                Defaults to None.
-            params_to_output (list[str], optional): A list containing the parameters to output from
+            params_to_output: A list containing the parameters to output from
                                                     the query. Defaults to
                                                     ["distances", "uris", "embeddings"].
         
         Returns:
-            list[EmbeddingData]: A list of EmbeddingData objects containing the matching results.
+            A list of EmbeddingData objects containing the matching results.
         """
         if params_to_output is None:
             params_to_output = ["distances", "uris", "embeddings"]
@@ -247,30 +247,30 @@ class ChromaDBGenerator:
         """Retrieve the n most similar artworks to a given embedding vector.
 
         Args:
-            vector (list[float]): The embedding vector to find similar artworks to.
-            n (int, optional): The number of matching results to find. Defaults to 10.
-            metadata_filters (dict, optional): A dictionary containing metadata filters.
+            vector: The embedding vector to find similar artworks to.
+            n: The number of matching results to find. Defaults to 10.
+            metadata_filters: A dictionary containing metadata filters.
                                                For more details on how to use this argument, visit:
                                                https://docs.trychroma.com/usage-guide
                                                Defaults to None.
-            params_to_output (list[str], optional): A list containing the parameters to output from
+            params_to_output: A list containing the parameters to output from
                                                     the query. Defaults to
                                                     ["distances", "uris", "embeddings"].
-            image_ids_to_be_distant_from (list[str], optional): Image IDs that we want the output
+            image_ids_to_be_distant_from: Image IDs that we want the output
                                                                 images to be different from.
-            similarity_threshold (float, optional): A threshold for excluding results considered too
+            similarity_threshold: A threshold for excluding results considered too
                                                     similar to the provided image IDs to be distant
                                                     from. Defaults to 0.9.
-            factor_for_extra_retrieval (int, optional): Factor to increase query size to compensate
+            factor_for_extra_retrieval: Factor to increase query size to compensate
                                                         for potential filtering. Defaults to 5.
-            similarity_threshold_step (float, optional): How much to decrease the similarity threshold
+            similarity_threshold_step: How much to decrease the similarity threshold
                                                          in each consecutive recursive call. Defaults to 
                                                          0.05.
-            factor_increase_step (int, optional): How much to increase the retrieval factor
+            factor_increase_step: How much to increase the retrieval factor
                                                 in each recursive call. Defaults to 1.
 
         Returns:
-            list[EmbeddingData]: A list of EmbeddingData objects containing the matching results.
+            A list of EmbeddingData objects containing the matching results.
         """
         if params_to_output is None:
             params_to_output = ["distances", "uris", "embeddings"]
@@ -349,12 +349,12 @@ class ChromaDBGenerator:
         the closest vector in the collection to this random direction.
 
         Args:
-            n (int, optional): The number of ids to retrieve. Defaults to 40.
-            image_paths_to_avoid (Optional[list[str]]): List of images not to be included in the
+            n: The number of ids to retrieve. Defaults to 40.
+            image_paths_to_avoid: List of images not to be included in the
                                                         output. Defaults to None.
 
         Returns:
-            list[str]: A set of diverse images.
+            A set of diverse images.
         """
         if image_paths_to_avoid is None:
             image_paths_to_avoid = []

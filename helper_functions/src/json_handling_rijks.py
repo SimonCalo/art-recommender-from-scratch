@@ -13,11 +13,11 @@ def convert_input_number_to_date(input_number: int) -> str:
     dates before year 0.
 
     Args:
-        input_number (int): Date in the form of a postive or negative integer.
+        input_number: Date in the form of a postive or negative integer.
 
     Returns:
-        str: The number converted to a date. If the number is negative, the date
-             will be the absolute number followed by BC.
+        The number converted to a date. If the number is negative, the date
+        will be the absolute number followed by BC.
     """
 
     if input_number < 0:
@@ -35,7 +35,7 @@ def load_cache(path: str = material_ids_rijks_config_path) -> dict[str, str]:
         path: Path to the cache file. Defaults to material_ids_rijks_config_path.
 
     Returns:
-        dict[str, str]: Dictionary containing the rijks id conversions.    
+        Dictionary containing the rijks id conversions.
     """
     try:
         with open(path) as f:
@@ -50,7 +50,7 @@ def save_cache(rijks_id_cache: dict[str, str], path: str = material_ids_rijks_co
     """Save the Rijks ID cache to a JSON file.
     
     Args:
-        rijks_id_cache (dict[str, str]): The dictionary containing information to convert ids to materials.
+        rijks_id_cache: The dictionary containing information to convert ids to materials.
         path: Path to the cache file. Defaults to material_ids_rijks_config_path.
     """
     with open(path, "w") as f:
@@ -61,11 +61,11 @@ def has_language(obj: dict[str, Any], lang_code: str) -> bool:
     """Check if an object has a language matching the given language code.
     
     Args:
-        obj (dict[str, Any]): Dictionary that may contain language information.
-        lang_code (str): Language code to check for (e.g. "300388277" for English).
+        obj: Dictionary that may contain language information.
+        lang_code: Language code to check for (e.g. "300388277" for English).
     
     Returns:
-        bool: True if the object has a language matching the code, False otherwise.
+        True if the object has a language matching the code, False otherwise.
     """
     return any(
         lang.get("id", "").endswith(lang_code)
@@ -80,12 +80,12 @@ def resolve_rijks_id_to_label(rijks_id: str, rijks_id_cache: dict[str, str], lan
     Falls back to the ID fragment if resolution fails.
     
     Args:
-        rijks_id (str): The Rijks ID URL to resolve.
-        rijks_id_cache (dict[str, str]): The dictionary containing information to convert ids to materials.
-        language (str): Language code for preferred label. Defaults to en_id_rijks, which is the English language.
+        rijks_id: The Rijks ID URL to resolve.
+        rijks_id_cache: The dictionary containing information to convert ids to materials.
+        language: Language code for preferred label. Defaults to en_id_rijks, which is the English language.
     
     Returns:
-        str: The resolved label indicating the material, or 'unknown' as a fallback.
+        The resolved label indicating the material, or 'unknown' as a fallback.
     """
     if rijks_id in rijks_id_cache:
         return rijks_id_cache[rijks_id]
@@ -129,11 +129,11 @@ def has_classification(obj: dict[str, Any], aat_code: str) -> bool:
     """Check if an object has a classification matching the given AAT code.
     
     Args:
-        obj (dict): Dictionary object that may contain classification information.
-        aat_code (str): AAT (Art & Architecture Thesaurus) code to check for.
+        obj: Dictionary object that may contain classification information.
+        aat_code: AAT (Art & Architecture Thesaurus) code to check for.
     
     Returns:
-        bool: True if the object has a classification matching the code, False otherwise.
+        True if the object has a classification matching the code, False otherwise.
     """
     return any(
         c.get("id", "").endswith(aat_code)
@@ -148,10 +148,10 @@ def get_linguistic_objects(metadata: dict[str, Any]) -> list[dict[str, Any]]:
     Combines objects from "referred_to_by" and "subject_of" fields.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
+        metadata: Dictionary containing artwork metadata.
     
     Returns:
-        list[dict[str, Any]]: List of linguistic object dictionaries.
+        List of linguistic object dictionaries.
     """
     return (
         metadata.get("referred_to_by", [])
@@ -163,11 +163,11 @@ def extract_title(metadata: dict[str, Any]) -> tuple[str, str]:
     """Extract English and original language titles from metadata.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
+        metadata: Dictionary containing artwork metadata.
     
     Returns:
-        tuple[str, str]: Tuple of (English title, original language title).
-                         Empty strings if not found.
+        Tuple of (English title, original language title).
+        Empty strings if not found.
     """
     titles = metadata.get("identified_by", [])
 
@@ -189,10 +189,10 @@ def extract_artist(metadata: dict[str, Any]) -> str:
     """Extract the main artist name from metadata.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
+        metadata: Dictionary containing artwork metadata.
     
     Returns:
-        str: The artist name, or "Anonymous" if not found.
+        The artist name, or "Anonymous" if not found.
     """
     produced_by = metadata.get("produced_by", {})
     parts = produced_by.get("part", [])
@@ -214,10 +214,10 @@ def parse_year_from_iso(date_str: str | None) -> int | None:
     Extract signed year from ISO 8601 date string.
 
     Args:
-        date_str (str | None): The date string to parse.
+        date_str: The date string to parse.
 
     Returns:
-        int | None: The signed year, or None if parsing fails.
+        The signed year, or None if parsing fails.
     """
     if not date_str or not isinstance(date_str, str):
         return None
@@ -237,16 +237,11 @@ def extract_dates(metadata: dict[str, Any]) -> tuple[Optional[int], Optional[str
     If only one date is available, it is used for both start and end.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
+        metadata: Dictionary containing artwork metadata.
     
     Returns:
-        tuple[
-            Optional[int],
-            Optional[str],
-            Optional[int],
-            Optional[str],
-        ]: Tuple of (start_year, start_date_string, end_year, end_date_string).
-           All values are None if dates cannot be extracted.
+        Tuple of (start_year, start_date_string, end_year, end_date_string).
+        All values are None if dates cannot be extracted.
     """
     timespan = (
         metadata
@@ -281,10 +276,10 @@ def extract_dimensions(metadata: dict[str, Any]) -> list[dict[str, Any]]:
     """Extract dimension information from metadata.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
+        metadata: Dictionary containing artwork metadata.
     
     Returns:
-        list[dict[str, Any]]: List of dimension dictionaries, each with "type", "value", and "unit" keys.
+        List of dimension dictionaries, each with "type", "value", and "unit" keys.
     """
     dims = []
 
@@ -311,10 +306,10 @@ def extract_descriptions(metadata: dict[str, Any]) -> tuple[str, str]:
     """Extract long descriptions in English and Dutch from metadata.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
+        metadata: Dictionary containing artwork metadata.
     
     Returns:
-        tuple[str, str]: Tuple of (English description, Dutch description). Empty strings if not found.
+        Tuple of (English description, Dutch description). Empty strings if not found.
     """
     long_en = ""
     long_nl = ""
@@ -339,12 +334,12 @@ def extract_material_label(material: dict[str, Any], rijks_id_cache: dict[str, s
     to resolving via the Rijks ID using the cache or API.
     
     Args:
-        material (dict[str, Any]): Dictionary containing material information.
-        rijks_id_cache (dict[str, str]): The dictionary containing information to convert ids to materials.
-        language (str): Language code for preferred label. Defaults to en_id_rijks.
+        material: Dictionary containing material information.
+        rijks_id_cache: The dictionary containing information to convert ids to materials.
+        language: Language code for preferred label. Defaults to en_id_rijks.
     
     Returns:
-        str: The material label, or empty string if not found.
+        The material label, or empty string if not found.
     """
     # First try embedded labels
     for ident in material.get("identified_by", []):
@@ -366,12 +361,12 @@ def extract_materials(metadata: dict[str, Any], rijks_id_cache: dict[str, str], 
     """Extract material labels from metadata.
     
     Args:
-        metadata (dict[str, Any]): Dictionary containing artwork metadata.
-        rijks_id_cache (dict[str, str]): The dictionary containing information to convert ids to materials.
-        language (str): Language code for preferred labels. Defaults to en_id_rijks.
+        metadata: Dictionary containing artwork metadata.
+        rijks_id_cache: The dictionary containing information to convert ids to materials.
+        language: Language code for preferred labels. Defaults to en_id_rijks.
     
     Returns:
-        list[str]: List of unique material labels.
+        List of unique material labels.
     """
     materials = []
 
