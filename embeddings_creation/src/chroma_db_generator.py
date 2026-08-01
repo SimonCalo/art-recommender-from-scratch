@@ -23,7 +23,7 @@ from embeddings_creation.config.chroma_db_generator_config import (
 )
 import numpy as np
 from embeddings_creation.src.data_models import EmbeddingData
-from helper_functions.vector_helpers import compute_cosine_similarities
+from helper_functions.src.vector_helpers import compute_cosine_similarities
 
 
 class ChromaDBGenerator:
